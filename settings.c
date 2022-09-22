@@ -10,10 +10,12 @@ int update(const char * source) {
 	char cwd [256];
 	if (getcwd(cwd, sizeof(cwd)) == 0) {
 		printf("Failed to read the current working directory\n");
+		return -1;
 	}	
 
 	if (system("cd ..") == 0){
 		printf("Failed to relocate working directory\n");
+		return -1;
 	}
 
 	char move_buffer [512];
@@ -45,7 +47,10 @@ int update(const char * source) {
 	// delete 
 	if (system("rm -rf temp") == 0) {
 		printf("Failed to delete old directory\n");
+		return -1;
 	}
+
+	return 0;
 }
 
 int uninstall() {
@@ -107,21 +112,33 @@ settings_t * load_settings(const char * source) {
 	}
 	
 	settings_t * settings = malloc(sizeof(settings_t));
-	
+			
 	// Read data from file
 	if (fscanf(fp, "%d", &settings->num_items) == 0) {
-		printf("Error while reading %s. File appears to be empty...\n");
+		printf("Error while reading %s. File appears to be empty...\n", source);
+		free(settings);
 		fclose(fp);
 		return NULL;
 	}
-
 	settings->items = malloc(sizeof(settings_item_t) * settings->num_items);
+
 	for (int i = 0; i < settings->num_items; i++) {
-		fscanf(fp, "%s : %s\n", settings->items[i].item, 
-								settings->items[i].status);
+		if (fscanf(fp, "%s : %s\n", settings->items[i].item, 
+								settings->items[i].status) == 0) {
+			printf("The number of items in your settings is \
+					smaller than its header suggests\n");
+			settings_cleanup(settings);
+			fclose(fp);
+			return NULL;
+		} 
 	}
 
 	fclose(fp);
 
 	return settings;
+}
+
+void settings_cleanup(settings_t * settings) {
+	free(settings->items);
+	free(settings);
 }

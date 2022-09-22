@@ -12,3 +12,4 @@ int update (const char * sources);
 int uninstall();
 int save_settings(const char * destination, settings_t * settings);
 settings_t * load_settings(const char * sources);
+void settings_cleanup(settings_t * settings);

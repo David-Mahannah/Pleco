@@ -18,6 +18,12 @@ int main(int argc, char **argv) {
 		printf("Failed to save the settings...\n");
 		return 1;
 	}
+	
+	if (update("https://github.com/David-Mahannah/Pleco/tarball/main") == -1) {
+		printf("Failed to update... Aborting\n");
+		return 1;
+	}
+
 	return 0;
 	// Display main menu
 	
