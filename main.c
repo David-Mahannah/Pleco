@@ -19,11 +19,15 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 	
+	printf("Ready to update? [y/n] ");
+	char c;
+	scanf("%c", &c); 
+	
 	if (update("https://github.com/David-Mahannah/Pleco/tarball/main") == -1) {
 		printf("Failed to update... Aborting\n");
 		return 1;
 	}
-
+	
 	return 0;
 	// Display main menu
 	
