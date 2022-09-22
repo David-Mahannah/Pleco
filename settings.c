@@ -101,18 +101,24 @@ settings_t * load_settings(const char * source) {
 	FILE * fp = fopen(source, "r");
 	
 	if (fp == NULL) {
-		printf("Failed to read settings file\n");
+		printf("Failed to read settings file: %s\n", source);
+		fclose(fp);
 		return NULL;
 	}
 	
 	settings_t * settings = malloc(sizeof(settings_t));
 	
 	// Read data from file
-	fscanf(fp, "%d", &settings->num_items);
+	if (fscanf(fp, "%d", &settings->num_items) == 0) {
+		printf("Error while reading %s. File appears to be empty...\n");
+		fclose(fp);
+		return NULL;
+	}
 
 	settings->items = malloc(sizeof(settings_item_t) * settings->num_items);
 	for (int i = 0; i < settings->num_items; i++) {
-		fscanf(fp, "%s : %s\n", settings->items[i].item, settings->items[i].status);
+		fscanf(fp, "%s : %s\n", settings->items[i].item, 
+								settings->items[i].status);
 	}
 
 	fclose(fp);
