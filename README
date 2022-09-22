@@ -1,0 +1,31 @@
+Installer
+
+// download PLECO
+https://github.com/David-Mahannah/Quizscrape/tarball/main
+
+// copy to Documents
+cd main Documents 
+
+// unzip
+tar -xf main
+
+
+// add shortcut to Desktop
+
+
+
+
+	PLECO MENU
+
+Applications
+[ ] Text chat
+
+System
+[ ] Update
+	1. Save user settings in outside directory
+	2. Delete all files
+	3. Reinstall
+	4. Restore user settings from temp directory
+[ ] Uninstall
+	2. Delete all files
+	3. exit
