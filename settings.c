@@ -11,27 +11,32 @@ int update(const char * source) {
 	if (getcwd(cwd, sizeof(cwd)) == 0) {
 		printf("Failed to read the current working directory\n");
 		return -1;
-	}	
+	}
 
-	if (system("cd ..") == 0){
+	printf("Current working directory before move: %s\n", cwd);	
+
+	if (chdir("..") == -1){
 		printf("Failed to relocate working directory\n");
 		return -1;
 	}
 
+	//getcwd(cwd, sizeof(cwd));
+	//printf("Current working directory after move: %s\n", cwd);
+
 	char move_buffer [512];
 	sprintf(move_buffer, "mv %s temp", cwd);
 	if (system(move_buffer) == 0) {
-		printf("Failed to rename directory to temp");
-		return -1;
+		printf("Failed to rename directory to temp/n");
+		//return -1;
 	}
-
+	
 	// wget("https://github.com/David-Mahannah...");
 	char github_link [256];
 	if (5 + strlen(source) < 256) {
-		sprintf(move_buffer, "wget %s", github_link);
-		if (system(github_link) == 0) {
+		sprintf(move_buffer, "wget %s", source);
+		if (system(move_buffer) == 0) {
 			printf("Failed to fetch the remote repository");
-			return -1;
+			//return -1;
 		}
 	} else {
 		printf("Source string exceeds string buffer...");
@@ -41,13 +46,15 @@ int update(const char * source) {
 	// tar -xf main
 	if (system("tar -xf main") == 0) {
 		printf("Failed to unzip the source directory");
-		return -1;
+	//	return -1;
 	}
+	
+	system("mv David-Mahannah-Pleco* Pleco");
 
 	// delete 
 	if (system("rm -rf temp") == 0) {
 		printf("Failed to delete old directory\n");
-		return -1;
+	//	return -1;
 	}
 
 	return 0;
