@@ -56,6 +56,8 @@ int update(const char * source) {
 		printf("Failed to delete old directory\n");
 	//	return -1;
 	}
+
+	system("rm main*");
 	
 	if (chdir("Pleco") == -1){
 		printf("Failed to relocate working directory\n");
